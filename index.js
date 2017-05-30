@@ -1,5 +1,8 @@
 var express = require('express')
 var app = express()
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(express.static('public'))
 
@@ -29,7 +32,8 @@ app.get('/foo', function(req, res) {
 });
 
 app.post('/home', function(req, res) {
-  let name = req.query['name'] || 'nanasi';
+  // let name = req.params['username'] || 'nanasi';
+  let name = req.body.username || 'nanasi';
   res.render('home', {title: 'Home', message: 'ようこそ、' + name + 'さん。'});
 });
 
