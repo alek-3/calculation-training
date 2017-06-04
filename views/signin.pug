@@ -1,0 +1,17 @@
+html
+  head
+    title= 'ID新規作成'
+  body
+    | ID新規作成ページ
+    form(method='post', action = '/index.html')
+      p
+        |ID
+        input#userID(type='text' name='userId')    
+        br
+        |パスワード
+        input#password(type='password' name='password')            
+        br
+        |パスワード(再入力)
+        input#passwordReminder(type='password' name='passwordReminder')    
+        br
+        input(type='submit', value='ログインID作成')

@@ -1,0 +1,14 @@
+html
+  head
+    title= 'GAMEのページ（仮）'
+  body
+    h1= message
+    h2= message2
+    h3= qcount
+    h3= message3
+    form(method='post', action = '/game')
+      p
+        |答え
+        input#answer(type='number' name='answer')    
+        br
+        input(type='submit', value='OK')

@@ -3,6 +3,20 @@ html
     title= title
   body
     h1= message
-    | homeページ
-    p
-      input(type='button', onClick="history.back();", value='戻る')
+    | Homeページ（仮）
+    form(method='post', action='/game')
+      p
+        | 四則演算 
+        select(name='calctype')
+          option(value='add') たしざん
+          option(value='subtract') ひきざん
+          option(value='multiple') かけざん
+          option(value='divide') わりざん
+        br
+        | 難しさ 
+        select(name='difficulty')
+          option(value='easy') かんたん
+          option(value='normal') ふつう
+        br
+        button.btn.btn-primary(type='submit') ゲームスタート
+        input(type='button', onClick="history.back();", value='戻る')

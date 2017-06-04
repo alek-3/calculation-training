@@ -32,12 +32,30 @@ app.get('/foo', function(req, res) {
 });
 
 app.post('/home', function(req, res) {
-  // let name = req.params['username'] || 'nanasi';
   let name = req.body.username || 'nanasi';
   res.render('home', {title: 'Home', message: 'ようこそ、' + name + 'さん。'});
 });
 
+app.get('/signin', function(req, res) {
+  res.render('signin');
+});
+
+app.post('/index.html', function(req, res) {
+  console.log('Enter into index.html');
+  res.render('/index.html');
+});
+
+app.post('/game', function(req, res) {
+  let calctype = req.body.calctype;
+  let difficulty = req.body.difficulty;
+  let num = 1;
+  let firstnum = Math.floor( Math.random() * 10 ) ;
+  let secondnum = Math.floor( Math.random() * 10 ) ;
+  res.render('game', {message: calctype, message2: 'むずかしさ：' + difficulty, 
+  qcount:'Q.'+num,  message3: firstnum+' + '+secondnum+' = ?'});
+});
+
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('Example app listening on port 3000!');
 })
