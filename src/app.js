@@ -20,16 +20,9 @@ app.set('view engine', 'pug');
 // templates are in ./views
 app.set('views', './views');
 
-app.get('/foo', function(req, res) {
-  // get name from URL parameter
-  // http://localhost:3000/foo?name=foo
-  let kibun = req.query['kibun'] || 'so-so';
-  res.render('foo', {message2: 'You are '+kibun+ ' now.'} );
+const fooHandler = require('./handlers/foo.js');
 
-  let name = req.query['name'] || 'nanasi';
-  res.render('foo', {title: 'greeting', message: 'Hello ' + name + '-san.'});
-  
-});
+app.get('/foo', fooHandler);
 
 app.post('/home', function(req, res) {
   let name = req.body.username || 'nanasi';
