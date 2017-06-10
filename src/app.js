@@ -1,8 +1,16 @@
 var express = require('express')
+var session = require('express-session');
 var app = express()
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+})); // For session
 
 app.use(express.static('public'))
 
@@ -39,9 +47,15 @@ app.post('/index.html', function(req, res) {
 });
 
 app.post('/game', function(req, res) {
-  let calctype = req.body.calctype;
-  let difficulty = req.body.difficulty;
+  if(req.body.calctype && req.body.difficulty){
+    console.log('Set session');
+    req.session.calctype =  req.body.calctype;
+    req.session.difficulty =  req.body.difficulty;
+  }
+  let calctype = req.session.calctype;
+  let difficulty = req.session.difficulty;
   let num = 1;
+  
   let firstnum = Math.floor( Math.random() * 10 ) ;
   let secondnum = Math.floor( Math.random() * 10 ) ;
   res.render('game', {message: calctype, message2: 'むずかしさ：' + difficulty, 
