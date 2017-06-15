@@ -88,7 +88,7 @@ app.post("/game", function(req, res) {
   let secondnum = 1 + Math.floor( Math.random() * 9 ) ;
   req.session.firstnum = firstnum;
   req.session.secondnum = secondnum;
-  
+
   res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
     qcount:"Q."+num,  message3: firstnum+" + "+secondnum+" = ?"});
 });
@@ -110,12 +110,7 @@ function TimeGetTimeString(time){
   time = (time - sec) / 60;
   var min = time % 60;
   var hou = (time - min) / 60;
-
-  // 文字列として連結
-  return hou  + ":" +
-  ((min < 10) ? "0" : "") + min + ":" +
-  ((sec < 10) ? "0" : "") + sec + "." +
-  ((milli_sec < 100) ? "0" : "") + ((milli_sec < 10) ? "0" : "") + milli_sec;
+  return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 4)}`;
 }
 
 
