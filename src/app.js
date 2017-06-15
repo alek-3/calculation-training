@@ -65,8 +65,7 @@ app.post("/game", function(req, res) {
   let calctype = req.session.calctype;
   let difficulty = req.session.difficulty;
   
-  // Set question number
-  let num = 1;
+  let questionNum = 1;
   if(req.session.questionNum){
     if(req.session.firstnum + req.session.secondnum  == req.body.answer){
       num = req.session.questionNum + 1;
@@ -75,10 +74,10 @@ app.post("/game", function(req, res) {
       num = req.session.questionNum;
     }
   }
-  req.session.questionNum = num;
+  req.session.questionNum = questionNum;
 
   // Answer 10 questions -> Go to result page
-  if(num > 5){
+  if(questionNum > 5){
     // Set end time
     let date_obj = new Date();
     let time = date_obj.getTime() - req.session.starttime;
@@ -94,7 +93,7 @@ app.post("/game", function(req, res) {
   req.session.secondnum = secondnum;
 
   res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
-    qcount:"Q."+num,  message3: firstnum+" + "+secondnum+" = ?"});
+    qcount:"Q."+questionNum,  message3: firstnum+" + "+secondnum+" = ?"});
 });
 
 function zeroPad(num, rank) {
