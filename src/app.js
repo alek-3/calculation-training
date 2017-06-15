@@ -52,6 +52,11 @@ app.post('/game', function(req, res) {
     console.log('Set session');
     req.session.calctype =  req.body.calctype;
     req.session.difficulty =  req.body.difficulty;
+    req.session.questionNum = 1;
+
+    // Set start time
+    let date_obj = new Date();
+    req.session.starttime = date_obj.getTime();
   }
   let calctype = req.session.calctype;
   let difficulty = req.session.difficulty;
@@ -69,8 +74,14 @@ app.post('/game', function(req, res) {
   req.session.questionNum = num;
 
   // Answer 10 questions -> Go to result page
-  if(num > 10){
-    res.render('results');
+  if(num > 5){
+    // Set end time
+    let date_obj = new Date();
+    let time = date_obj.getTime() - req.session.starttime;
+    let result = TimeGetTimeString(time);
+    console.log(result);
+
+    res.render('results', {result:'結果：'+result});
   }
 
   let firstnum = 1 + Math.floor( Math.random() * 9 ) ;
@@ -81,5 +92,22 @@ app.post('/game', function(req, res) {
   res.render('game', {message: calctype, message2: 'むずかしさ：' + difficulty, 
   qcount:'Q.'+num,  message3: firstnum+' + '+secondnum+' = ?'});
 });
+
+function TimeGetTimeString(time){
+
+	var milli_sec = time % 1000;
+	time = (time - milli_sec) / 1000;
+	var sec = time % 60;
+	time = (time - sec) / 60;
+	var min = time % 60;
+	var hou = (time - min) / 60;
+
+	// 文字列として連結
+	return hou  + ":" +
+		((min < 10) ? "0" : "") + min + ":" +
+		((sec < 10) ? "0" : "") + sec + "." +
+		((milli_sec < 100) ? "0" : "") + ((milli_sec < 10) ? "0" : "") + milli_sec;
+}
+
 
 module.exports = app;
