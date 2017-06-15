@@ -46,17 +46,21 @@ app.post("/index.html", function(req, res) {
   res.render("/index.html");
 });
 
+function setupGame(req) {
+  console.log("Set session");
+  req.session.calctype =  req.body.calctype;
+  req.session.difficulty =  req.body.difficulty;
+  req.session.questionNum = 1;
+
+  // Set start time
+  let date_obj = new Date();
+  req.session.starttime = date_obj.getTime();
+}
+
 app.post("/game", function(req, res) {
   // Get type of game  
   if(req.body.calctype && req.body.difficulty){
-    console.log("Set session");
-    req.session.calctype =  req.body.calctype;
-    req.session.difficulty =  req.body.difficulty;
-    req.session.questionNum = 1;
-
-    // Set start time
-    let date_obj = new Date();
-    req.session.starttime = date_obj.getTime();
+    setupGame(req);
   }
   let calctype = req.session.calctype;
   let difficulty = req.session.difficulty;
