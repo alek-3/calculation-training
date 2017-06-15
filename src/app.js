@@ -93,8 +93,17 @@ app.post("/game", function(req, res) {
     qcount:"Q."+num,  message3: firstnum+" + "+secondnum+" = ?"});
 });
 
-function TimeGetTimeString(time){
+function zeroPad(num, rank) {
+  let tmp = "";
+  for (let i = 0; i < rank; i++) {
+    tmp += "0";
+  }
+  let numStr = num.toString();
+  numStr = tmp + numStr;
+  return numStr.substring(numStr.length - rank);
+}
 
+function TimeGetTimeString(time){
   var milli_sec = time % 1000;
   time = (time - milli_sec) / 1000;
   var sec = time % 60;
