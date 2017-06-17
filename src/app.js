@@ -46,23 +46,26 @@ app.post("/index.html", function(req, res) {
   res.render("/index.html");
 });
 
+function setupGame(req) {
+  console.log("Set session");
+  req.session.calctype =  req.body.calctype;
+  req.session.difficulty =  req.body.difficulty;
+  req.session.questionNum = 1;
+
+  // Set start time
+  let date_obj = new Date();
+  req.session.starttime = date_obj.getTime();
+}
+
 app.post("/game", function(req, res) {
   // Get type of game  
   if(req.body.calctype && req.body.difficulty){
-    console.log("Set session");
-    req.session.calctype =  req.body.calctype;
-    req.session.difficulty =  req.body.difficulty;
-    req.session.questionNum = 1;
-
-    // Set start time
-    let date_obj = new Date();
-    req.session.starttime = date_obj.getTime();
+    setupGame(req);
   }
   let calctype = req.session.calctype;
   let difficulty = req.session.difficulty;
   
-  // Set question number
-  let num = 1;
+  let questionNum = 1;
   if(req.session.questionNum){
     if(req.session.firstnum + req.session.secondnum  == req.body.answer){
       num = req.session.questionNum + 1;
@@ -71,10 +74,10 @@ app.post("/game", function(req, res) {
       num = req.session.questionNum;
     }
   }
-  req.session.questionNum = num;
+  req.session.questionNum = questionNum;
 
   // Answer 10 questions -> Go to result page
-  if(num > 5){
+  if(questionNum > 5){
     // Set end time
     let date_obj = new Date();
     let time = date_obj.getTime() - req.session.starttime;
@@ -88,25 +91,29 @@ app.post("/game", function(req, res) {
   let secondnum = 1 + Math.floor( Math.random() * 9 ) ;
   req.session.firstnum = firstnum;
   req.session.secondnum = secondnum;
-  
+
   res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
-    qcount:"Q."+num,  message3: firstnum+" + "+secondnum+" = ?"});
+    qcount:"Q."+questionNum,  message3: firstnum+" + "+secondnum+" = ?"});
 });
 
-function TimeGetTimeString(time){
+function zeroPad(num, rank) {
+  let tmp = "";
+  for (let i = 0; i < rank; i++) {
+    tmp += "0";
+  }
+  let numStr = num.toString();
+  numStr = tmp + numStr;
+  return numStr.substring(numStr.length - rank);
+}
 
+function TimeGetTimeString(time){
   var milli_sec = time % 1000;
   time = (time - milli_sec) / 1000;
   var sec = time % 60;
   time = (time - sec) / 60;
   var min = time % 60;
   var hou = (time - min) / 60;
-
-  // 文字列として連結
-  return hou  + ":" +
-  ((min < 10) ? "0" : "") + min + ":" +
-  ((sec < 10) ? "0" : "") + sec + "." +
-  ((milli_sec < 100) ? "0" : "") + ((milli_sec < 10) ? "0" : "") + milli_sec;
+  return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 4)}`;
 }
 
 
