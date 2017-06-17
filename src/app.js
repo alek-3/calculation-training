@@ -46,17 +46,6 @@ app.post("/index.html", function(req, res) {
   res.render("/index.html");
 });
 
-function setupGame(req) {
-  console.log("Set session");
-  req.session.calctype =  req.body.calctype;
-  req.session.difficulty =  req.body.difficulty;
-  req.session.questionNum = 1;
-
-  // Set start time
-  let date_obj = new Date();
-  req.session.starttime = date_obj.getTime();
-}
-
 app.post("/game", function(req, res) {
   // Get type of game  
   if(req.body.calctype && req.body.difficulty){
@@ -68,10 +57,10 @@ app.post("/game", function(req, res) {
   let questionNum = 1;
   if(req.session.questionNum){
     if(req.session.firstnum + req.session.secondnum  == req.body.answer){
-      num = req.session.questionNum + 1;
+      questionNum = req.session.questionNum + 1;
     }
     else{
-      num = req.session.questionNum;
+      questionNum = req.session.questionNum;
     }
   }
   req.session.questionNum = questionNum;
@@ -85,6 +74,7 @@ app.post("/game", function(req, res) {
     console.log(result);
 
     res.render("results", {result:"結果："+result});
+    return;
   }
 
   let firstnum = 1 + Math.floor( Math.random() * 9 ) ;
@@ -95,6 +85,17 @@ app.post("/game", function(req, res) {
   res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
     qcount:"Q."+questionNum,  message3: firstnum+" + "+secondnum+" = ?"});
 });
+
+function setupGame(req) {
+  console.log("Set session");
+  req.session.calctype =  req.body.calctype;
+  req.session.difficulty =  req.body.difficulty;
+  req.session.questionNum = 1;
+
+  // Set start time
+  let date_obj = new Date();
+  req.session.starttime = date_obj.getTime();
+}
 
 function zeroPad(num, rank) {
   let tmp = "";
@@ -115,6 +116,5 @@ function TimeGetTimeString(time){
   var hou = (time - min) / 60;
   return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 4)}`;
 }
-
 
 module.exports = app;
