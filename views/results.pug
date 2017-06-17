@@ -3,3 +3,8 @@ html
         title= 'Resultページ（仮）'
     body
         p= result
+        form(method='POST', action='/game')
+            input(type='submit', name='btn', value='もう一度')
+        form(method='POST', action='/home')
+            input(type='submit', name='btn', value='戻る')
+            
