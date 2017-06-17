@@ -43,8 +43,10 @@ module.exports = function(req, res) {
 
 function setupGame(req) {
   console.log("Set session");
-  req.session.calctype =  req.body.calctype;
-  req.session.difficulty =  req.body.difficulty;
+  if(!req.session.endflag){
+    req.session.calctype =  req.body.calctype;
+    req.session.difficulty =  req.body.difficulty;
+  } 
   req.session.questionNum = 1;
   req.session.endflag = false;
 
