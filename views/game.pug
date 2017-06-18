@@ -1,14 +1,16 @@
 html
   head
     title= 'GAMEのページ（仮）'
+    include includes/style.pug
   body
-    p= message
-    p= message2
-    p= qcount
-    p= message3
-    form(method='post', action = '/game')
-      p
-        |答え
-        input#answer(type='number' name='answer')    
-        br
-        input(type='submit', value='OK')
+    h1.title.is-3 Gameページ（仮）
+    .content
+      p= message + ", " + message2
+      p= qcount + " ： " + message3
+      form(method='post', action = '/game')
+        .field
+          label.label 答え
+          p.control
+            input#answer.input(type='number' name='answer')    
+            br
+          input.button.is-primary.is-outlined(type='submit', value='OK')

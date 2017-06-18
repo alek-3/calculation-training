@@ -1,22 +1,27 @@
 html
   head
     title= title
+    include includes/style.pug
   body
-    h1= message
-    | Homeページ（仮）
+    h1.title.is-3 Homeページ（仮）
+    .content
+      h3= message
     form(method='post', action='/game')
-      p
-        | 四則演算 
-        select(name='calctype')
-          option(value='add') たしざん
-          option(value='subtract') ひきざん
-          option(value='multiple') かけざん
-          option(value='divide') わりざん
-        br
-        | 難しさ 
-        select(name='difficulty')
-          option(value='easy') かんたん
-          option(value='normal') ふつう
-        br
-        button.btn.btn-primary(type='submit') ゲームスタート
-        input(type='button', onClick="location.href='/'", value='戻る')
+      .field
+        p.control
+          label.label 四則演算 
+          span.select(name='calctype')
+            select
+              option(value='add') たしざん
+              option(value='subtract') ひきざん
+              option(value='multiple') かけざん
+              option(value='divide') わりざん
+          label.label 難しさ　
+          sapn.select(name='difficulty')
+            select
+              option(value='easy') かんたん
+              option(value='normal') ふつう
+          br
+          br
+          button.button.is-primary.is-outlined(type='submit') ゲームスタート
+          input.button.is-primary.is-outlined(type='button', onClick="location.href='/'", value='戻る')

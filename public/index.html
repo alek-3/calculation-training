@@ -1,16 +1,26 @@
 <html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css">
+</head>
 <body>
-ログインページ（仮）
+<h1 class="title is-3">ログインページ（仮）</h1>
 <form method="post" action="/home">
-<p>
-ID <input type="text" id="username" name="username" />
-<br>
-Pass <input type="password" id="password" name="password" />
-<br>
-<input type="submit" value="ログイン" />　
+<div class="field">
+  <label class="label">ID</label>
+  <p class="control">
+    <input type="text" id="username" name="username" placeholder="Enter your ID" class="input"/>
+  </p>
+</div>
+<div class="field">
+  <label class="label">Password</label>
+  <p class="control">
+    <input type="text" id="password" name="password" placeholder="Enter password" class="input"/>
+  </p>
+</div>
+<input type="submit" class="button is-primary is-outlined" value="ログイン" />　
 </p>
 </form>
-<input type="button" 
+<input type="button" class="button is-primary is-outlined"
     onclick="location.href = '/signin';" name="ID新規作成" value="ID新規作成">
 </body>
 </html>
