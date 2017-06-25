@@ -1,6 +1,6 @@
 module.exports = function(req, res) {
   // Get type of game  
-  if(req.body.calctype && req.body.difficulty || req.session.endflag){
+  if((req.body.calctype && req.body.difficulty )|| req.session.endflag){
     setupGame(req);
   }
   let calctype = req.session.calctype;
@@ -43,7 +43,7 @@ module.exports = function(req, res) {
 
 function setupGame(req) {
   console.log("Set session");
-  if(!req.session.endflag){
+  if(req.body.calctype && req.body.difficulty){
     req.session.calctype =  req.body.calctype;
     req.session.difficulty =  req.body.difficulty;
   } 

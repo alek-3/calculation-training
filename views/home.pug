@@ -7,21 +7,18 @@ html
     .content
       h3= message
     form(method='post', action='/game')
-      .field
-        p.control
-          label.label 四則演算 
-          span.select(name='calctype')
-            select
-              option(value='add') たしざん
-              option(value='subtract') ひきざん
-              option(value='multiple') かけざん
-              option(value='divide') わりざん
-          label.label 難しさ　
-          sapn.select(name='difficulty')
-            select
-              option(value='easy') かんたん
-              option(value='normal') ふつう
-          br
-          br
-          button.button.is-primary.is-outlined(type='submit') ゲームスタート
-          input.button.is-primary.is-outlined(type='button', onClick="location.href='/'", value='戻る')
+      p
+        label.label 四則演算
+        select.select(name='calctype')
+          option(value='add') たしざん
+          option(value='subtract') ひきざん
+          option(value='multiple') かけざん
+          option(value='divide') わりざん
+        br
+        label.label 難しさ        
+        select.select(name='difficulty')
+          option(value='easy') かんたん
+          option(value='normal') ふつう
+        br
+        button.button.is-primary.is-outlined(type='submit') ゲームスタート
+        input.button.is-primary.is-outlined(type='button', onClick="location.href='/'", value='戻る')
