@@ -32,6 +32,11 @@ const fooHandler = require("./handlers/foo.js");
 
 app.get("/foo", fooHandler);
 
+app.get("/home", function(req, res) {
+  let name = req.body.username || "nanasi";
+  res.render("home", {title: "Home", message: "ようこそ、" + name + "さん。"});
+});
+
 app.post("/home", function(req, res) {
   let name = req.body.username || "nanasi";
   res.render("home", {title: "Home", message: "ようこそ、" + name + "さん。"});
@@ -48,5 +53,9 @@ app.post("/index.html", function(req, res) {
 
 const gameHandler = require("./handlers/game.js");
 app.post("/game", gameHandler);
+
+app.get("/scores", function(req, res){
+  res.render("scores");
+});
 
 module.exports = app;

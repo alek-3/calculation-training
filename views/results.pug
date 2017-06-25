@@ -1,11 +1,12 @@
 html    
     head
-        title= 'Resultページ（仮）'
+        title= 'Result'
         include includes/style.pug
     body
+        h1.title.is-3 Resultページ（仮）
         p= result
         form(method='POST', action='/game')
-            input(type='submit', name='btn', value='もう一度')
+            input.button.is-primary.is-outlined(type='submit', name='btn', value='もう一度')
         form(method='POST', action='/home')
-            input(type='submit', name='btn', value='戻る')
+            input.button.is-primary.is-outlined(type='submit', name='btn', value='戻る')
             
