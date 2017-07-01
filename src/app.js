@@ -2,6 +2,13 @@ var express = require("express");
 var session = require("express-session");
 var app = express();
 var bodyParser = require("body-parser");
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host : '127.0.0.1',
+  user : 'root',
+  password : 'password',
+  database: 'calc_training'
+});
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
@@ -59,24 +66,13 @@ app.get("/scores", function(req, res){
 });
 
 app.get("/sqlsample", function(req,res){
-  const mysql = require('mysql');
-  const connection = mysql.createConnection({
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'password',
-    database: 'calc_training'
-  });
- 
   connection.connect();
- 
   connection.query('SELECT player_name, result_time FROM result;', function (error, results, fields) {
     if (error) { console.log('err: ' + error); } 
-  
+
     console.log('プレーヤー名: '+ results[0].player_name);
     console.log('タイム: '+ results[0].result_time);
-  
   });
-  
   connection.end();
 });
 
