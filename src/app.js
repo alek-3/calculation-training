@@ -2,12 +2,12 @@ var express = require("express");
 var session = require("express-session");
 var app = express();
 var bodyParser = require("body-parser");
-const mysql = require('mysql');
+const mysql = require("mysql");
 const connection = mysql.createConnection({
-  host : '127.0.0.1',
-  user : 'root',
-  password : 'password',
-  database: 'calc_training'
+  host : "127.0.0.1",
+  user : "root",
+  password : "password",
+  database: "calc_training"
 });
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -61,17 +61,16 @@ app.post("/index.html", function(req, res) {
 const gameHandler = require("./handlers/game.js");
 app.post("/game", gameHandler);
 
-app.get("/scores", function(req, res){
-  res.render("scores");
-});
+const scoresHandler = require("./handlers/scores.js");
+app.get("/scores", scoresHandler);
 
-app.get("/sqlsample", function(req,res){
+app.get("/sqlsample", function(){
   connection.connect();
-  connection.query('SELECT player_name, result_time FROM result;', function (error, results, fields) {
-    if (error) { console.log('err: ' + error); } 
+  connection.query("SELECT player_name, result_time FROM result;", function (error, results) {
+    if (error) { console.log("err: " + error); } 
 
-    console.log('プレーヤー名: '+ results[0].player_name);
-    console.log('タイム: '+ results[0].result_time);
+    console.log("プレーヤー名: "+ results[0].player_name);
+    console.log("タイム: "+ results[0].result_time);
   });
   connection.end();
 });
