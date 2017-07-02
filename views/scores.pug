@@ -6,7 +6,7 @@ html
     h1.title.is-3 Scoresページ（仮）
     table.table
         thead
-            |参考 http://bulma.io/documentation/elements/table/
+            |結果表
             th
                 abbr(title='Seq') 順位
             th
@@ -16,7 +16,9 @@ html
             th
                 abbr(title='Time') タイム
             th
-                abbr(title='Time') 名前
+                abbr(title='Name') 名前
+            th
+                abbr(title='PlayingDate') プレー日時
         tfoot
             th
                 abbr(title='Seq') 順位
@@ -27,17 +29,15 @@ html
             th
                 abbr(title='Time') タイム
             th
-                abbr(title='Time') 名前
+                abbr(title='Name') 名前
+            th
+                abbr(title='PlayingDate') プレー日時
         tbody
-            tr
-                th 1
-                td Add
-                td Easy
-                td 00:05:012
-                td 俺
-            tr
-                th 2
-                td Add
-                td Easy
-                td 00:06:214
-                td あなた
+        - for (var i = 0; i < data.length; i++)
+            tr 
+                th= i+1
+                td= data[i].game_type_id
+                td= data[i].difficulty_id
+                td= data[i].result_time
+                td= data[i].player_name
+                td= data[i].playing_date
