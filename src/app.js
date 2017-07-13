@@ -61,7 +61,8 @@ app.post("/index.html", function(req, res) {
 const gameHandler = require("./handlers/game.js");
 app.post("/game", gameHandler);
 
-const scoresHandler = require("./handlers/scores.js");
+const scoresHandlerCreator = require("./handler-creators/scores.js");
+const scoresHandler = scoresHandlerCreator({connection: connection});
 app.get("/scores", scoresHandler);
 
 app.get("/sqlsample", function(){
