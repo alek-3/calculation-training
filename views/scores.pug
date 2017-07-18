@@ -4,6 +4,18 @@ html
     include includes/style.pug
   body
     h1.title.is-3 Scoresページ（仮）
+    form(method='post', action='/scores')
+        div 
+            label.label 四則演算
+            select.select(name='calctype')
+                option(value='add') たしざん
+                option(value='subtract') ひきざん
+                option(value='multiple') かけざん
+                option(value='divide') わりざん
+            label.label 難しさ        
+            select.select(name='difficulty')
+                option(value='easy') かんたん
+                option(value='normal') ふつう
     table.table
         thead
             |結果表
