@@ -7,7 +7,8 @@ const connection = mysql.createConnection({
   host : "127.0.0.1",
   user : "root",
   password : "password",
-  database: "calc_training"
+  database: "calc_training",
+  timezone:"jst"
 });
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
