@@ -17,7 +17,10 @@ module.exports = function(options, req) {
   `;
   return function(req, res) {
     conn.query(query, function (error, results) {
-      if (error) { console.log("err: " + error); }
+      if (error) {
+        console.log("err: " + error);
+        return res.status(500).render("500");
+      }
       res.render("scores",{data: results});
     });
   };
