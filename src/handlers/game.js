@@ -8,7 +8,8 @@ module.exports = function(req, res) {
   
   let questionNum = 1;
   if(req.session.questionNum){
-    if(req.session.firstnum + req.session.secondnum  == req.body.answer){
+    if(req.session.correctAns == req.body.answer){
+      // the answer of the player is correct
       questionNum = req.session.questionNum + 1;
     }
     else{
@@ -32,18 +33,19 @@ module.exports = function(req, res) {
   }
 
   // Set questions
-  let firstnum = 1 + Math.floor( Math.random() * 9 ) ;
-  let secondnum = 1 + Math.floor( Math.random() * 9 ) ;
-  req.session.firstnum = firstnum;
-  req.session.secondnum = secondnum;
+  // the question is changed everytime
+  setQuestion(calctype, difficulty, req);
 
   res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
-    qcount:"Q."+questionNum,  message3: firstnum+" + "+secondnum+" = ?"});
+    qcount:"Q."+questionNum,  message3: req.session.firstNum+" "+req.session.sign+" "
+    +req.session.secondNum+" ＝ ？"});
 };
 
 function setupGame(req) {
   console.log("Set session");
+
   if(req.body.calctype && req.body.difficulty){
+    // when type and difficulty are chosen
     req.session.calctype =  req.body.calctype;
     req.session.difficulty =  req.body.difficulty;
   } 
@@ -73,4 +75,53 @@ function TimeGetTimeString(time){
   var min = time % 60;
   var hou = (time - min) / 60;
   return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 4)}`;
+}
+
+function setQuestion(calctype, difficulty, req){
+  // easy: 1~9, normal 1~99
+  let maxNum;
+  switch(difficulty){
+  case "easy":
+    maxNum = 9;
+    break;
+  case "normal":
+    maxNum = 99;
+    break;
+  default:
+    break;
+  } 
+
+  const firstNum =  1 + Math.floor( Math.random() * maxNum ) ;
+  const secondNum =  1 + Math.floor( Math.random() * maxNum ) ;
+  const addNum = firstNum + secondNum;
+  const multipleNum = firstNum * secondNum;
+
+  switch(calctype){
+  case "add":
+    req.session.firstNum = firstNum;
+    req.session.secondNum = secondNum;
+    req.session.correctAns = addNum;
+    req.session.sign = "＋";
+    break;
+  case "subtract":
+    req.session.firstNum = addNum;
+    req.session.secondNum = firstNum;
+    req.session.correctAns = secondNum;
+    req.session.sign = "－";
+    break;
+  case "multiple":
+    req.session.firstNum = firstNum;
+    req.session.secondNum = secondNum;
+    req.session.correctAns = multipleNum;
+    req.session.sign = "×";
+    break;
+  case "divide":
+    req.session.firstNum = multipleNum;
+    req.session.secondNum = firstNum;
+    req.session.correctAns = secondNum;
+    req.session.sign = "÷";
+    break;
+  default:
+    break;
+  }
 }
