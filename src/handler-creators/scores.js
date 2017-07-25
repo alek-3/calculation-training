@@ -1,22 +1,27 @@
-module.exports = function(options, req) {
-  let type = req.query["calctype"]; // ここでエラーになる。
-  let difficulty = req.query["difficulty"];
-
+module.exports = function(options) {
   const conn = options.connection;
-  const query = `
-  SELECT
-    a.player_name, a.result_time, a.game_type_id, a.difficulty_id, a.playing_date
-  FROM result a
-  INNER JOIN game_type b
-  ON a.game_type_id = b.game_type_id
-  INNER JOIN difficulty c
-  ON a.difficulty_id = c.difficulty_id
-  WHERE b.game_type_name = '`+type+`'
-  AND c.difficulty_name = '`+difficulty+`'
-  ORDER BY result_time;
-  `;
+
   return function(req, res) {
-    conn.query(query, function (error, results) {
+    let type = req.query["calctype"]; 
+    let difficulty = req.query["difficulty"];
+    if(type == null || difficulty == null){
+      type = "たしざん";
+      difficulty = "かんたん";
+    }
+    let query = `
+      SELECT
+        a.player_name, a.result_time, a.playing_date
+      FROM result a
+      INNER JOIN game_type b
+      ON a.game_type_id = b.game_type_id
+      INNER JOIN difficulty c
+      ON a.difficulty_id = c.difficulty_id
+      WHERE b.game_type_name = ? 
+      AND c.difficulty_name = ? 
+      ORDER BY result_time;
+      `;
+
+    conn.query(query, [type, difficulty], function (error, results) {
       if (error) { console.log("err: " + error); }
       res.render("scores",{data: results});
     });
