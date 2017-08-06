@@ -40,15 +40,10 @@ const fooHandler = require("./handlers/foo.js");
 
 app.get("/foo", fooHandler);
 
-app.get("/home", function(req, res) {
-  let name = req.body.username || "nanasi";
-  res.render("home", {title: "Home", message: "ようこそ、" + name + "さん。"});
-});
 
-app.post("/home", function(req, res) {
-  let name = req.body.username || "nanasi";
-  res.render("home", {title: "Home", message: "ようこそ、" + name + "さん。"});
-});
+const homeHandler = require("./handlers/home.js");
+app.get("/home", homeHandler);
+app.post("/home", homeHandler);
 
 app.get("/signin", function(req, res) {
   res.render("signin");
