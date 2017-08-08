@@ -79,7 +79,7 @@ module.exports = function(options){
     time = (time - sec) / 60;
     var min = time % 60;
     var hou = (time - min) / 60;
-    return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 4)}`;
+    return `${hou}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.${zeroPad(milli_sec, 3)}`;
   }
 
   function setQuestion(calctype, difficulty, req){
@@ -136,12 +136,10 @@ module.exports = function(options){
     let calcId = getCalctypeId(calctype);
     let difficultyId = getDifficultyId(difficulty);
     let name = req.session.username;
-    let date_obj = new Date();
-    let nowDate = TimeGetTimeString(date_obj.getTime());
     let post = {player_name: name, result_time: result, 
       game_type_id: calcId, difficulty_id: difficultyId};
 
-    conn.query(query, post, function (error, results) {
+    conn.query(query, post, function (error) {
       if (error) { console.log("err: " + error); }
     });
 
