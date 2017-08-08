@@ -8,24 +8,20 @@ html
         div 
             label.label 四則演算
                 select.select(name='calctype')
-                    option(value='add') たしざん
-                    option(value='subtract') ひきざん
-                    option(value='multiple') かけざん
-                    option(value='divide') わりざん
+                    option たしざん
+                    option ひきざん
+                    option かけざん
+                    option わりざん
             label.label 難しさ        
                 select.select(name='difficulty')
-                    option(value='easy') かんたん
-                    option(value='normal') ふつう
+                    option かんたん
+                    option ふつう
             button.button.is-primary.is-outlined(type='submit') 表示
     table.table
         thead
             |結果表
             th
                 abbr(title='Seq') 順位
-            th
-                abbr(title='Type') タイプ
-            th
-                abbr(title='Difficulty') 難しさ
             th
                 abbr(title='Time') タイム
             th
@@ -36,10 +32,6 @@ html
             th
                 abbr(title='Seq') 順位
             th
-                abbr(title='Type') タイプ
-            th
-                abbr(title='Difficulty') 難しさ
-            th
                 abbr(title='Time') タイム
             th
                 abbr(title='Name') 名前
@@ -49,8 +41,6 @@ html
         - for (var i = 0; i < data.length; i++)
             tr 
                 th= i+1
-                td= data[i].game_type_id
-                td= data[i].difficulty_id
                 td= data[i].result_time
                 td= data[i].player_name
                 td= data[i].playing_date
