@@ -54,7 +54,8 @@ app.post("/index.html", function(req, res) {
   res.render("/index.html");
 });
 
-const gameHandler = require("./handlers/game.js");
+const gameHandlerCreator = require("./handler-creators/game.js");
+const gameHandler = gameHandlerCreator({connection: connection});
 app.post("/game", gameHandler);
 
 const scoresHandlerCreator = require("./handler-creators/scores.js");
