@@ -1,6 +1,6 @@
 module.exports = function(req, res) {
   let name;
-  if(req.session.username){
+  if(req.session.username && !req.body.username){
     name = req.session.username;
   }
   else{

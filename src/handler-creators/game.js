@@ -2,27 +2,27 @@ module.exports = function(options){
   const conn = options.connection;
 
   return function(req, res) {
-  // Get type of game  
+    const allquestion = 5;
+    // Get type of game  
     if((req.body.calctype && req.body.difficulty )|| req.session.endflag){
+      // first play or restart
       setupGame(req);
     }
     let calctype = req.session.calctype;
     let difficulty = req.session.difficulty;
   
     let questionNum = 1;
-    if(req.session.questionNum){
-      if(req.session.correctAns == req.body.answer){
+    if(req.body.answer && req.session.correctAns == req.body.answer){
       // the answer of the player is correct
-        questionNum = req.session.questionNum + 1;
-      }
-      else{
-        questionNum = req.session.questionNum;
-      }
+      questionNum = req.session.questionNum + 1;
+    }
+    else{
+      questionNum = req.session.questionNum;
     }
     req.session.questionNum = questionNum;
 
     // Answer 10 questions -> Go to result page
-    if(questionNum > 5){
+    if(questionNum > allquestion){
     // Set end time
       let date_obj = new Date();
       let time = date_obj.getTime() - req.session.starttime;
@@ -40,17 +40,17 @@ module.exports = function(options){
     // Set questions
     // the question is changed everytime
     setQuestion(calctype, difficulty, req);
+    let calctypeLabel = getCalctypeLabel(calctype);
+    let difficultyLabel = getDifficultyLabel(difficulty);
 
-    res.render("game", {message: calctype, message2: "むずかしさ：" + difficulty, 
-      qcount:"Q."+questionNum,  message3: req.session.firstNum+" "+req.session.sign+" "
+    res.render("game", {message: calctypeLabel, message2: difficultyLabel, 
+      qcount:"Q."+questionNum+" / "+allquestion,  message3: req.session.firstNum+" "+req.session.sign+" "
     +req.session.secondNum+" ＝ ？"});
   };
 
   function setupGame(req) {
-    console.log("Set session");
-
     if(req.body.calctype && req.body.difficulty){
-    // when type and difficulty are chosen
+    // start from home screen
       req.session.calctype =  req.body.calctype;
       req.session.difficulty =  req.body.difficulty;
     } 
@@ -142,9 +142,6 @@ module.exports = function(options){
     conn.query(query, post, function (error) {
       if (error) { console.log("err: " + error); }
     });
-
-
-
   }
 
   function getCalctypeId(calctype){
@@ -181,7 +178,42 @@ module.exports = function(options){
       break;
     }
     return ret;
-    
+  }
+
+  function getCalctypeLabel(calctype){
+    let ret = "";
+    switch(calctype){
+    case "add":
+      ret = "たしざん";
+      break;
+    case "subtract":
+      ret = "ひきざん";
+      break;
+    case "multiple":
+      ret = "かけざん";
+      break;
+    case "divide":
+      ret = "わりざん";
+      break;
+    default:
+      break;
+    }
+    return ret;
+  }
+
+  function getDifficultyLabel(difficulty){
+    let ret = "";
+    switch(difficulty){
+    case "easy":
+      ret = "かんたん";
+      break;
+    case "normal":
+      ret = "ふつう";
+      break;
+    default:
+      break;
+    }
+    return ret;
   }
 
 };
