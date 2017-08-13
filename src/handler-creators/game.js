@@ -3,14 +3,14 @@ module.exports = function(options){
 
   return function(req, res) {
     const allquestion = 5;
-    // Get type of game  
+    // Get type of game
     if((req.body.calctype && req.body.difficulty )|| req.session.endflag){
       // first play or restart
       setupGame(req);
     }
     let calctype = req.session.calctype;
     let difficulty = req.session.difficulty;
-  
+
     let questionNum = 1;
     if(req.body.answer && req.session.correctAns == req.body.answer){
       // the answer of the player is correct
@@ -43,7 +43,7 @@ module.exports = function(options){
     let calctypeLabel = getCalctypeLabel(calctype);
     let difficultyLabel = getDifficultyLabel(difficulty);
 
-    res.render("game", {message: calctypeLabel, message2: difficultyLabel, 
+    res.render("game", {message: calctypeLabel, message2: difficultyLabel,
       qcount:"Q."+questionNum+" / "+allquestion,  message3: req.session.firstNum+" "+req.session.sign+" "
     +req.session.secondNum+" ＝ ？"});
   };
@@ -53,7 +53,7 @@ module.exports = function(options){
     // start from home screen
       req.session.calctype =  req.body.calctype;
       req.session.difficulty =  req.body.difficulty;
-    } 
+    }
     req.session.questionNum = 1;
     req.session.endflag = false;
 
@@ -94,7 +94,7 @@ module.exports = function(options){
       break;
     default:
       break;
-    } 
+    }
 
     const firstNum =  1 + Math.floor( Math.random() * maxNum ) ;
     const secondNum =  1 + Math.floor( Math.random() * maxNum ) ;
@@ -136,7 +136,7 @@ module.exports = function(options){
     let calcId = getCalctypeId(calctype);
     let difficultyId = getDifficultyId(difficulty);
     let name = req.session.username;
-    let post = {player_name: name, result_time: result, 
+    let post = {player_name: name, result_time: result,
       game_type_id: calcId, difficulty_id: difficultyId};
 
     conn.query(query, post, function (error) {

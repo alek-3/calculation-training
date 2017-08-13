@@ -2,7 +2,7 @@ module.exports = function(options) {
   const conn = options.connection;
 
   return function(req, res) {
-    let type = req.query["calctype"]; 
+    let type = req.query["calctype"];
     let difficulty = req.query["difficulty"];
     if(type == null || difficulty == null){
       type = "たしざん";
@@ -23,7 +23,7 @@ module.exports = function(options) {
       `;
 
     conn.query(query, [type, difficulty], function (error, results) {
-      if (error) { console.log("err: " + error); 
+      if (error) { console.log("err: " + error);
         return res.status(500).render("500");
       }
       res.render("scores",{data: results, calctype: type, difficulty: difficulty});
