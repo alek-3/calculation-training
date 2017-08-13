@@ -8,8 +8,8 @@ module.exports = function(options){
       // first play or restart
       setupGame(req);
     }
-    let calctype = req.session.calctype;
-    let difficulty = req.session.difficulty;
+    const calctype = req.session.calctype;
+    const difficulty = req.session.difficulty;
   
     let questionNum = 1;
     if(req.body.answer && req.session.correctAns == req.body.answer){
@@ -24,9 +24,9 @@ module.exports = function(options){
     // Answer 10 questions -> Go to result page
     if(questionNum > allquestion){
     // Set end time
-      let date_obj = new Date();
-      let time = date_obj.getTime() - req.session.starttime;
-      let result = TimeGetTimeString(time);
+      const date_obj = new Date();
+      const time = date_obj.getTime() - req.session.starttime;
+      const result = TimeGetTimeString(time);
       console.log(result);
 
       req.session.endflag = true;
@@ -40,8 +40,8 @@ module.exports = function(options){
     // Set questions
     // the question is changed everytime
     setQuestion(calctype, difficulty, req);
-    let calctypeLabel = getCalctypeLabel(calctype);
-    let difficultyLabel = getDifficultyLabel(difficulty);
+    const calctypeLabel = getCalctypeLabel(calctype);
+    const difficultyLabel = getDifficultyLabel(difficulty);
 
     res.render("game", {message: calctypeLabel, message2: difficultyLabel, 
       qcount:"Q."+questionNum+" / "+allquestion,  message3: req.session.firstNum+" "+req.session.sign+" "
@@ -58,7 +58,7 @@ module.exports = function(options){
     req.session.endflag = false;
 
     // Set start time
-    let date_obj = new Date();
+    const date_obj = new Date();
     req.session.starttime = date_obj.getTime();
   }
 
@@ -132,11 +132,11 @@ module.exports = function(options){
   }
 
   function insertResult(result, calctype, difficulty, req){
-    let query ="INSERT INTO result set ?";
-    let calcId = getCalctypeId(calctype);
-    let difficultyId = getDifficultyId(difficulty);
-    let name = req.session.username;
-    let post = {player_name: name, result_time: result, 
+    const query ="INSERT INTO result set ?";
+    const calcId = getCalctypeId(calctype);
+    const difficultyId = getDifficultyId(difficulty);
+    const name = req.session.username;
+    const post = {player_name: name, result_time: result, 
       game_type_id: calcId, difficulty_id: difficultyId};
 
     conn.query(query, post, function (error) {

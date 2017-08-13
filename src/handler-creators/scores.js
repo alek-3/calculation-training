@@ -8,7 +8,7 @@ module.exports = function(options) {
       type = "たしざん";
       difficulty = "かんたん";
     }
-    let query = `
+    const query = `
       SELECT
         a.player_name, a.result_time, a.playing_date + INTERVAL 9 HOUR AS playing_date
       FROM result a
