@@ -1,7 +1,7 @@
 module.exports = function(req, res) {
   // get name from URL parameter
   // http://localhost:3000/foo?name=foo
-  let kibun = req.query["kibun"] || "so-so";
+  const kibun = req.query["kibun"] || "so-so";
   res.render("foo", {message2: "You are "+kibun+ " now."} );
 
   // let name = req.query['name'] || 'nanasi';
