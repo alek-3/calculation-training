@@ -4,11 +4,12 @@ var app = express();
 var bodyParser = require("body-parser");
 const mysql = require("mysql");
 const connection = mysql.createConnection({
-  host : "127.0.0.1",
-  user : "root",
-  password : "password",
-  database: "calc_training",
-  timezone: "jst"
+  host : process.env.DB_HOST,
+  port : process.env.DB_PORT,
+  user : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  timezone: process.env.DB_TIMEZONE,
 });
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
