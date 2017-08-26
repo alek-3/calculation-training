@@ -1,5 +1,5 @@
 module.exports = function(options) {
-  const conn = options.connection;
+  const client = options.client;
 
   return function(req, res) {
     let type = req.query["calctype"]; 
@@ -16,13 +16,13 @@ module.exports = function(options) {
       ON a.game_type_id = b.game_type_id
       INNER JOIN difficulty c
       ON a.difficulty_id = c.difficulty_id
-      WHERE b.game_type_name = ? 
-      AND c.difficulty_name = ? 
+      WHERE b.game_type_name = $1 
+      AND c.difficulty_name = $2 
       ORDER BY result_time
       LIMIT 10;
       `;
 
-    conn.query(query, [type, difficulty], function (error, results) {
+    client.query(query, [type, difficulty], function (error, results) {
       if (error) { console.log("err: " + error); 
         return res.status(500).render("500");
       }
