@@ -2,10 +2,12 @@ var express = require("express");
 var session = require("express-session");
 var app = express();
 var bodyParser = require("body-parser");
+
+const config = require('./config.js');
+
 const { Client } = require("pg");
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-});
+const client = new Client(config.db);
+
 client.connect();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
