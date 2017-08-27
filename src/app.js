@@ -66,7 +66,7 @@ app.get("/scores", scoresHandler);
 app.get("/sqlsample", function(){
   connection.connect();
   connection.query("SELECT player_name, result_time FROM result;", function (error, results) {
-    if (error) { console.log("err: " + error); } 
+    if (error) { console.log("err: " + error); }
 
     console.log("プレーヤー名: "+ results[0].player_name);
     console.log("タイム: "+ results[0].result_time);
