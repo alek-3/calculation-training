@@ -12,6 +12,7 @@
         "quotes": [ "error", "double" ],
         "semi": [ "error", "always" ],
         "no-console": "off",
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "no-trailing-spaces": "error"
     }
 }
