@@ -2,15 +2,11 @@ var express = require("express");
 var session = require("express-session");
 var app = express();
 var bodyParser = require("body-parser");
-const mysql = require("mysql");
-const connection = mysql.createConnection({
-  host : process.env.DB_HOST,
-  port : process.env.DB_PORT,
-  user : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  timezone: process.env.DB_TIMEZONE,
+const { Client } = require("pg");
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
 });
+client.connect();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
@@ -56,22 +52,12 @@ app.post("/index.html", function(req, res) {
 });
 
 const gameHandlerCreator = require("./handler-creators/game.js");
-const gameHandler = gameHandlerCreator({connection: connection});
+const gameHandler = gameHandlerCreator({client: client});
 app.post("/game", gameHandler);
 
 const scoresHandlerCreator = require("./handler-creators/scores.js");
-const scoresHandler = scoresHandlerCreator({connection: connection});
+const scoresHandler = scoresHandlerCreator({client: client});
 app.get("/scores", scoresHandler);
 
-app.get("/sqlsample", function(){
-  connection.connect();
-  connection.query("SELECT player_name, result_time FROM result;", function (error, results) {
-    if (error) { console.log("err: " + error); } 
-
-    console.log("プレーヤー名: "+ results[0].player_name);
-    console.log("タイム: "+ results[0].result_time);
-  });
-  connection.end();
-});
 
 module.exports = app;
