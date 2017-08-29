@@ -1,5 +1,5 @@
 module.exports = function(options){
-  const conn = options.connection;
+  const client = options.client;
 
   return function(req, res) {
     const allquestion = 5;
@@ -132,14 +132,14 @@ module.exports = function(options){
   }
 
   function insertResult(result, calctype, difficulty, req){
-    const query ="INSERT INTO result set ?";
+    const query ="INSERT INTO result set $1";
     const calcId = getCalctypeId(calctype);
     const difficultyId = getDifficultyId(difficulty);
     const name = req.session.username;
     const post = {player_name: name, result_time: result,
       game_type_id: calcId, difficulty_id: difficultyId};
 
-    conn.query(query, post, function (error) {
+    client.query(query, post, function (error) {
       if (error) { console.log("err: " + error); }
     });
   }
