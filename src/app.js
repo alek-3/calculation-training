@@ -59,5 +59,4 @@ const scoresHandlerCreator = require("./handler-creators/scores.js");
 const scoresHandler = scoresHandlerCreator({client: client});
 app.get("/scores", scoresHandler);
 
-
 module.exports = app;
